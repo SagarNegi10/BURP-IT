@@ -382,7 +382,7 @@ void addMenuItem() {
     menuHead = newItem;
     saveMenu();
     cls(); middle1();
-    br(1); printCentered("Item added successfully!",1);
+    printCentered("Item added successfully!",1);
     Sleep(1000);
 }
 
@@ -406,7 +406,6 @@ void removeMenuItem() {
         menuHead = temp->next;
     else
         prev->next = temp->next;
-
     free(temp);
     saveMenu();
     cls(); middle1();
@@ -442,6 +441,7 @@ void displayMenu() {
         printCentered("No items in menu.", 1);
         return;
     }
+    br(5);
     ccolor(26);
     printCentered("______________________________________________________", 1);
     printCentered("|  ID  |       Name         |  Price  |   In Stock   |", 1);
@@ -798,25 +798,32 @@ void processOrder() {
 void displayOrders() {
     if (!front) {
         cls();
-        middle1(); pre(3); ccolor(12); printf("No pending orders.\n"); ccolor(15);
+        middle1();
+        pre(3);
+        ccolor(12);
+        printf("No pending orders.\n");
+        ccolor(15);
         br(2);
         printCentered("Press any key to continue...", 1);
         getch();
         return;
     }
     cls();
+    br(2);
     ccolor(11);
-    printf("\n\t\t"); ccolor(240);
-    printf("___________________________________________________________________________________________\n"); ccolor(11);
     printf("\t\t"); ccolor(240);
-    printf("| %-5s | %-15s | %-20s | %-8s | %-8s | %-12s |\n", "ID", "Customer", "Food Item", "Price", "Priority", "City"); ccolor(11);
+    printf("__________________________________________________________________________________________\n");
     printf("\t\t"); ccolor(240);
-    printf("-------------------------------------------------------------------------------------------\n");
+    printf("| %-5s | %-15s | %-20s | %-8s | %-8s | %-12s |\n", "ID", "Customer", "Food Item", "Price", "Priority", "City");
+    printf("\t\t"); ccolor(240);
+    printf("------------------------------------------------------------------------------------------\n");
     for (Order *temp = front; temp; temp = temp->next) {
         printf("\t\t"); ccolor(62);
         printf("| %-5d | %-15s | %-20s | %-8.2f | %-8s | %-12s |\n",
                temp->orderId, temp->customerName, temp->foodItem,
                temp->price, temp->priority ? "Urgent" : "Normal", temp->city);
+        printf("\t\t"); ccolor(240);
+        printf("------------------------------------------------------------------------------------------\n");
         Sleep(100);
     }
     ccolor(15);
@@ -960,22 +967,22 @@ void displayPayments() {
     getConsoleSize(&width, &height);
     float totalSales = 0;
     Payment temp;
+    br(5);
     ccolor(11);
-    printCentered("___________________________________________________________________", 1);
+    printCentered("_______________________________________________________________", 1);
     printCentered("| Order ID  |     Customer Name     |   Amount   |   Method   |", 1);
-    printCentered("-------------------------------------------------------------------", 1);
+    printCentered("---------------------------------------------------------------", 1);
     while (fscanf(file, "%d %s %f %s", &temp.orderId, temp.customerName, &temp.amount, temp.method) == 4) {
         char row[200];
         snprintf(row, sizeof(row), "| %-9d | %-21s | %-9.2f | %-10s |", 
                  temp.orderId, temp.customerName, temp.amount, temp.method);
         ccolor(62);
         printCentered(row, 1);
-        Sleep(100);
         totalSales += temp.amount;
     }
     fclose(file);
     ccolor(11);
-    printCentered("-------------------------------------------------------------------", 1);
+    printCentered("---------------------------------------------------------------", 1);
     ccolor(14);
     char totalRow[100];
     snprintf(totalRow, sizeof(totalRow), "Total Sales: %.2f", totalSales);
@@ -1360,34 +1367,50 @@ void addOrderToHistory(int orderId, const char *customer, const char *food, floa
 
 void displayOrderHistory() {
     if (!historyTop) {
-        cls(); middle1(); pre(3); ccolor(12); printf("No order history available!\n"); ccolor(15);
+        cls();
+        middle1();
+        pre(3);
+        ccolor(12);
+        printf("No order history available!\n");
+        ccolor(15);
+        br(2);
+        printCentered("Press any key to continue...", 1);
+        getch();
         return;
     }
     cls();
     int width, height;
     getConsoleSize(&width, &height);
+    const int tableWidth = 67;
     char buffer[256];
+    br(5);
     ccolor(11);
-    snprintf(buffer, sizeof(buffer), "_________________________________________________________");
-    printCentered(buffer, 1); ccolor(240);
-    snprintf(buffer, sizeof(buffer), "| %-5s | %-20s | %-20s | %-8s |", "ID", "Customer", "Food Item", "Price");
-    printCentered(buffer, 1); ccolor(11);
-    snprintf(buffer, sizeof(buffer), "---------------------------------------------------------");
+    snprintf(buffer, sizeof(buffer), "___________________________________________________________________");
     printCentered(buffer, 1);
+    ccolor(240);
+    snprintf(buffer, sizeof(buffer), "| %-5s | %-20s | %-20s | %-8s |", "ID", "Customer", "Food Item", "Price");
+    printCentered(buffer, 1);
+    ccolor(11);
+    snprintf(buffer, sizeof(buffer), "-------------------------------------------------------------------");
+    printCentered(buffer, 1);
+    ccolor(62);
     OrderHistory *temp = historyTop;
     while (temp) {
         snprintf(buffer, sizeof(buffer), "| %-5d | %-20s | %-20s | %-8.2f |",
                  temp->orderId, temp->customerName, temp->foodItem, temp->price);
-        ccolor(62);
         printCentered(buffer, 1);
         temp = temp->next;
         Sleep(100);
     }
+    ccolor(11);
+    snprintf(buffer, sizeof(buffer), "-------------------------------------------------------------------");
+    printCentered(buffer, 1);
     ccolor(15);
     br(2);
     printCentered("Press any key to continue...", 1);
     getch();
 }
+
 
 // About - Us ==============================================================================================================
 
@@ -1400,7 +1423,7 @@ void showAboutInfo() {
     ccolor(15);
     printCentered("Version: 1.0.0", 1);
     br(1);
-    printCentered("Developed under guidance of Mr. Shobha Aswal", 1);
+    printCentered("Developed under guidance of Ms. Shobha Aswal", 1);
     br(2);
     ccolor(14);
     printCentered("Team Members:", 1);
