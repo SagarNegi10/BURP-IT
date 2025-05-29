@@ -1,2 +1,4 @@
-15 kaif Chocolate_Shake 160.00
-16 rita Grilled_Sandwich 150.00
+15 ritik Boba_Tea 119.00 gehu
+15 ritik Paneer_Wrap 129.00 kargi
+10 sagar_negi Lava_Cake 89.00 badowala
+10 sagar_negi Water_Bottle 20.00 kargi
